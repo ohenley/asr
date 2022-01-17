@@ -27,11 +27,13 @@ begin
                 declare
                     i0 : positive := m.f.tris_indices (f)(i);
                     x0 : real := (m.x (i0) + 1.0) * 300;
-                    y0 : real := (m.y (i0) + 1.0) * 300;
+                    y0 : real := (600.0 - (m.y (i0) + 1.0) * 300) + 1.0; -- (600.0 ...) + 1.0 // necessary to flip y for drawing on X11
+                    
                     i1 : positive := m.f.tris_indices (f)((i mod 3) + 1);
                     x1 : real := (m.x (i1) + 1.0) * 300;
-                    y1 : real := (m.y (i1) + 1.0) * 300;
+                    y1 : real := (600.0 - (m.y (i1) + 1.0) * 300) + 1.0; -- (600.0 ...) + 1.0 // necessary to flip y for drawing on X11
                 begin
+                    put_line(y0'image);
                     --if f = 6 and i = 3 then 
                     soft_renderer.line.line (integer(x0), integer(y0), integer(x1), integer(y1), c, img);
                     --end if;
