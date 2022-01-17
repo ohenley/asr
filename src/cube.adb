@@ -33,7 +33,6 @@ begin
                     x1 : real := (m.x (i1) + 1.0) * 300;
                     y1 : real := (600.0 - (m.y (i1) + 1.0) * 300) + 1.0; -- (600.0 ...) + 1.0 // necessary to flip y for drawing on X11
                 begin
-                    put_line(y0'image);
                     --if f = 6 and i = 3 then 
                     soft_renderer.line.line (integer(x0), integer(y0), integer(x1), integer(y1), c, img);
                     --end if;
