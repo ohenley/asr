@@ -127,12 +127,6 @@ package body x11_window is
                     end if;
                 end loop;
             end loop;
-
-
-
-            -- force animation loop
-            -- delay 0.0083;
-            -- x_send_event (dpy, win, true, 0, event'unchecked_access);
         end loop;
     end;
 
