@@ -6,10 +6,6 @@ project cube is
   for Object_Dir use "obj";
   for Create_Missing_Dirs use "True";
 
-  package Compiler is
-    for switches ("ada") use ("-gnat2022");
-  end compiler;
-
   package Linker is
    for switches ("ada") use ("-L/usr/lib/X11", "-lX11");
   end Linker;
