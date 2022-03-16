@@ -2,6 +2,9 @@ with system;
 with interfaces.c;
 with Interfaces.C.Strings;
 with ada.text_io; use ada.text_io;
+
+with basics; use basics;
+
 package body x11_window is
 
     package ic renames interfaces.c;
@@ -21,6 +24,19 @@ package body x11_window is
     type bool is new boolean;
     for bool'size use 8;
 
+    Type color Is Record
+        r : intensity;
+        g : intensity;
+        b : intensity;
+        a : intensity;
+    End Record;
+    For color Use Record
+        b   At 0 Range  0 ..  7;
+        g   At 1 Range  0 ..  7;
+        r   At 2 Range  0 ..  7;
+        a   At 3 Range  0 ..  7;
+    End Record;
+    For color'Size Use ic.unsigned_long'size;
 
     function x_open_display (display_name : ics.chars_ptr) return display_access with
         Import        => True,
@@ -119,12 +135,17 @@ package body x11_window is
 
         while not quit loop
             x_next_event (dpy, event'unchecked_access);
-
             for i in image.r'range (1) loop
                 for j in image.r'range (2) loop
-                    if image.r (i, j) = 1.0 then
-                        draw_pixel (ic.int(i), ic.int(j), 16#ffffff#);
-                    end if;
+                    declare
+                        c : color := (image.r (i, j), image.g (i, j), image.b (i, j), image.a (i, j));
+                        c_color : ic.unsigned_long;
+                        for c_color'address use c'address;
+                    begin
+                        if c_color > 0 then
+                            draw_pixel (ic.int(i), ic.int(j), c_color);
+                        end if;
+                    end;
                 end loop;
             end loop;
 

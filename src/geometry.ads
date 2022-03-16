@@ -1,8 +1,8 @@
 -- https://stackoverflow.com/questions/52049531/can-a-record-discriminant-determine-array-lengths-indirectly-in-ada
 
-package geometry is
+with basics; use basics;
 
-    type real is delta 0.00001 range -1_000_000.0 .. 1_000_000.0;
+package geometry is
 
     type component_array is array (natural range <>) of real;
 

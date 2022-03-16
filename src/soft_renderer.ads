@@ -1,18 +1,17 @@
-package soft_renderer is
+with basics; use basics;
 
-    d : constant := 2.0 ** (-31);
-    type fixed is delta d range -d .. 1.0 + d;
+package soft_renderer is
 
     type color is
     record
-        r : fixed := 0.0;
-        g : fixed := 0.0;
-        b : fixed := 0.0;
-        a : fixed := 0.0;
+        r : intensity := 0.0;
+        g : intensity := 0.0;
+        b : intensity := 0.0;
+        a : intensity := 0.0;
     end record;
 
   -- Note that Max_Lines and Max_Length need to be static
-    type color_data is array (positive range <>, positive range <>) of fixed;
+    type color_data is array (positive range <>, positive range <>) of intensity;
 
     type image (width : natural := 0; height : natural := 0) is
     record
@@ -26,5 +25,21 @@ package soft_renderer is
                                 x : natural; 
                                 y : natural;
                                 c : color);
+
+    procedure line (x0 : in out natural;
+                    y0 : in out natural;
+                    x1 : in out natural; 
+                    y1 : in out natural; 
+                    c : color; 
+                    img : in out image);
+
+    procedure triangle (px0 : in out natural; 
+                        py0 : in out natural; 
+                        px1 : in out natural; 
+                        py1 : in out natural;
+                        px2 : in out natural; 
+                        py2 : in out natural;
+                        c : color; 
+                        img : in out image);
 
 end soft_renderer;

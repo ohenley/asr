@@ -4,6 +4,9 @@ with Ada.Directories; use Ada.Directories;
 with GNAT.Spitbol.Patterns;  
 
 with ada.strings.unbounded;
+
+with basics; use basics;
+
 package body importer is
 
     procedure get_model_stats (file_path : string; nbr_vertices: out natural; nbr_faces: out natural; face_t: out geometry.face_type) is
@@ -69,14 +72,15 @@ package body importer is
                         integ : constant Pattern := Span("-0123456789");
                         frac : constant Pattern := Span("-e0123456789");
                         res : Unbounded_string;
-                        real : constant Pattern := (Pos(0) & integ & '.' & frac & Span(' ')) * res;
+                        real : constant Pattern := (integ & '.' & frac) * res;
                     begin
                         for i in 1 .. 3 loop
                             match (vline, real, "");
+                            
                             case i is
-                                when 1 => m.x (nbr_vertices) := geometry.real'Value(to_string(res));
-                                when 2 => m.y (nbr_vertices) := geometry.real'Value(to_string(res));
-                                when 3 => m.z (nbr_vertices) := geometry.real'Value(to_string(res));
+                                when 1 => m.x (nbr_vertices) := basics.real'Value(to_string(res)); --put_line ("x" & to_string(res) & " " & vline'image);
+                                when 2 => m.y (nbr_vertices) := basics.real'Value(to_string(res)); --put_line ("y" & to_string(res) & " " & vline'image);
+                                when 3 => m.z (nbr_vertices) := basics.real'Value(to_string(res)); --put_line ("z" & to_string(res) & " " & vline'image);
                             end case;
                         end loop;
                     end;
